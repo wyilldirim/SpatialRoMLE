@@ -1,0 +1,10 @@
+Package: SpatialRoMLE
+Type: Package
+Title: Robust Maximum Likelihood Estimation for Spatial Error Model
+Version: 0.1.0
+Author: Vural Yildirim, Yeliz Mert Kantar
+Maintainer: Vural Yildirim <vurall_yildirim@hotmail.com>
+Description: Provides robust maximum likelihood estimation for spatial error model
+License: Artistic License
+Encoding: UTF-8
+LazyData: true
