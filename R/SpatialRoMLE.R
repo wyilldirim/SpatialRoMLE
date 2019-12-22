@@ -33,7 +33,7 @@ RoMLE.error <- function(initial.beta,  initial.s2, initial.lambda, W, y, x, phi.
     c <- 2.985
     fi  <- function(r) (r*exp(-(r/c)^2))
     bfi <- function(r) (exp(-(r/c)^2)*(1-2*(r^2/c^2)))
-    #K interal hesab?
+    #K interal
     integrand  <- function(r) (r*exp(-(r/c)^2))^2 * (2*pi)^-0.5*exp(-r^2/2)
     K <- integrate(integrand, lower = -Inf, upper = Inf)$value
     integrand2  <- function(r) (exp(-(r/c)^2)*(1-2*(r^2/c^2))) * (2*pi)^-0.5*exp(-r^2/2)
@@ -52,11 +52,13 @@ RoMLE.error <- function(initial.beta,  initial.s2, initial.lambda, W, y, x, phi.
     #Logistic
     c <- 1.205
     fi  <- function(r) (c*tanh(r/c))
-    bfi <- function(r) (sech(r/c)*sech(r/c))
+    #bfi <- function(r) (sech(r/c)*sech(r/c))
+    bfi <- function(r) (c*(1-tanh(r/c)^2))
     #K interal
     integrand  <- function(r) (c*tanh(r/c))^2 * (2*pi)^-0.5*exp(-r^2/2)
     K <- integrate(integrand, lower = -Inf, upper = Inf)$value
-    integrand2  <- function(r) (sech(r/c)*sech(r/c)) * (2*pi)^-0.5*exp(-r^2/2)
+    #integrand2  <- function(r) (sech(r/c)*sech(r/c)) * (2*pi)^-0.5*exp(-r^2/2)
+    integrand2  <- function(r) (c*(1-tanh(r/c)^2)) * (2*pi)^-0.5*exp(-r^2/2)
     K2 <- integrate(integrand2, lower = -Inf, upper = Inf)$value
   }
 
@@ -190,8 +192,9 @@ RoMLE.error <- function(initial.beta,  initial.s2, initial.lambda, W, y, x, phi.
   names(betas) <- c("intercept", names(x))
   sigma2 <- sl.new[1]
   lambda <- sl.new[2]
-
-  result <- list(coefficients=betas, lambda=lambda, s2=sigma2)
+  phi.name <- c("Cauchy","Welsch","Insha","Logistic")
+  Phi <- phi.name[phi.function]
+  result <- list(coefficients=betas, lambda=lambda, s2=sigma2, Phi=Phi)
   return(result)
 
 }
